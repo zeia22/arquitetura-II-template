@@ -1,8 +1,5 @@
 import { Request, Response } from "express"
 import { AccountBusiness } from "../business/AccountBusiness"
-import { AccountDatabase } from "../database/AccountDatabase"
-import { Account } from "../models/Account"
-import { AccountDB } from "../types"
 
 export class AccountController {
     public getAccounts = async (req: Request, res: Response) => {
@@ -77,35 +74,15 @@ export class AccountController {
 
     public editAccountBalance = async (req: Request, res: Response) => {
         try {
-            const id = req.params.id
-            const value = req.body.value
-    
-            if (typeof value !== "number") {
-                res.status(400)
-                throw new Error("'value' deve ser number")
+            const input = {
+                id: req.params.id,
+                value: req.body.value
             }
-    
-            const accountDatabase = new AccountDatabase()
-            const accountDB = await accountDatabase.findAccountById(id)
-    
-            if (!accountDB) {
-                res.status(404)
-                throw new Error("'id' não encontrado")
-            }
-    
-            const account = new Account(
-                accountDB.id,
-                accountDB.balance,
-                accountDB.owner_id,
-                accountDB.created_at
-            )
-    
-            const newBalance = account.getBalance() + value
-            account.setBalance(newBalance)
-    
-            await accountDatabase.updateBalanceById(id, newBalance)
-    
-            res.status(200).send(account)
+
+            const accountBusiness = new AccountBusiness()
+            const output = await accountBusiness.editAccountBalance(input)
+
+            res.status(200).send(output)
         } catch (error) {
             console.log(error)
     
