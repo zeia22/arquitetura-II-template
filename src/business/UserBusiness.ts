@@ -1,4 +1,5 @@
 import { UserDatabase } from "../database/UserDatabase"
+import { BadRequestError } from "../errors/BadRequestError"
 import { User } from "../models/User"
 import { UserDB } from "../types"
 
@@ -21,20 +22,36 @@ export class UserBusiness {
     public createUser = async (input: any) => {
         const { id, name, email, password } = input
 
+        if (id === undefined) {
+          throw new BadRequestError("'id' é obrigário no corpo da requisição")
+        }
+
         if (typeof id !== "string") {
-            throw new Error("'id' deve ser string")
+            throw new BadRequestError("'id' deve ser string")
+        }
+
+        if (name === undefined) {
+          throw new BadRequestError("'name' é obrigário no corpo da requisição")
         }
 
         if (typeof name !== "string") {
-            throw new Error("'name' deve ser string")
+            throw new BadRequestError("'name' deve ser string")
+        }
+
+        if (email === undefined) {
+          throw new BadRequestError("'email' é obrigário no corpo da requisição")
         }
 
         if (typeof email !== "string") {
-            throw new Error("'email' deve ser string")
+            throw new BadRequestError("'email' deve ser string")
+        }
+
+        if (password === undefined) {
+          throw new BadRequestError("'password' é obrigário no corpo da requisição")
         }
 
         if (typeof password !== "string") {
-            throw new Error("'password' deve ser string")
+            throw new BadRequestError("'password' deve ser string")
         }
 
         const userDatabase = new UserDatabase()

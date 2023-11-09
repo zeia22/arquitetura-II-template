@@ -42,6 +42,8 @@ export class AccountBusiness {
     public createAccount = async (input: any) => {
         const { id, ownerId } = input
 
+        // TODO = instanciar os erros customizados em vez do Error nativo
+
         if (typeof id !== "string") {
             throw new Error("'id' deve ser string")
         }
