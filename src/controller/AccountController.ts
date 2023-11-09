@@ -57,6 +57,9 @@ export class AccountController {
             const output = await accountBusiness.createAccount(input)
     
             res.status(201).send(output)
+
+
+        // TODO = refatorar o catch para usar o statusCode
         } catch (error) {
             console.log(error)
     
